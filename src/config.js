@@ -4,7 +4,7 @@ export const defaultConfig = {
 
   // Date and time of the surprise
   // Format: YYYY-MM-DDTHH:mm:ss
-  countdownTarget: "2025-12-31T00:00:00",
+  countdownTarget: "2024-10-09T00:00:00",
 
   // Messages to be displayed
   messages: [
