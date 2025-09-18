@@ -24,9 +24,13 @@ const MessagePage = ({ config, onComplete }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div
+      <motion.div
         className="relative w-full max-w-lg rounded-lg shadow-2xl shadow-pink-900/20 p-8 sm:p-12 text-center ease-in-out"
         style={{ background: config.messagePage.background }}
+        initial={{ opacity: 0, y: "100vh" }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: "-100vh" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <div className="min-h-[10rem] flex items-center justify-center">
           <AnimatePresence mode="wait">
@@ -57,7 +61,7 @@ const MessagePage = ({ config, onComplete }) => {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

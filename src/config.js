@@ -8,19 +8,19 @@ export const defaultConfig = {
   // Format: YYYY-MM-DDTHH:mm:ss
   countdownTarget: "2024-10-09T00:00:00",
 
-  // ✨ Surprise messages
+  // ✨ Surprise messages (OPTIMIZED TIMING)
   messages: [
-    ["Hey there!", 2500],
-    ["", 1200],
-    ["Today's not just another day…", 3500],
-    ["", 1200],
-    ["It's YOUR special day! 🥳", 3500],
-    ["", 1200],
-    ["Here's to more joy, love, and dreams coming true 💖", 4500],
-    ["", 1200],
-    ["May your smile shine brighter than ever 🌟", 4000],
-    ["", 1200],
-    ["Happy Birthday Amazing Person! 🎂🎉", 7000],
+    ["Hey there!", 1500], // Reduced from 2500
+    ["", 600], // Reduced from 1200
+    ["Today's not just another day…", 2000], // Reduced from 3500
+    ["", 600], // Reduced from 1200
+    ["It's YOUR special day! 🥳", 2000], // Reduced from 3500
+    ["", 600], // Reduced from 1200
+    ["Here's to more joy, love, and dreams coming true 💖", 2500], // Reduced from 4500
+    ["", 600], // Reduced from 1200
+    ["May your smile shine brighter than ever 🌟", 2000], // Reduced from 4000
+    ["", 600], // Reduced from 1200
+    ["Happy Birthday Amazing Person! 🎂🎉", 3000], // Reduced from 7000
   ],
 
   // 💬 Ending dialog
@@ -66,14 +66,14 @@ export const defaultConfig = {
     volume: 0.08,
   },
 
-  // ⏱️ Animation timings
+  // ⏱️ Animation timings (OPTIMIZED)
   animationTimings: {
-    pauseAfterLightsOn: 2500,
-    pauseAfterTitleReveal: 2500,
-    pauseAfterCakeReveal: 3000,
-    pauseAfterBlow: 4500,
-    holdToStartMs: 400,
-    blowStepInterval: 1200,
+    pauseAfterLightsOn: 1500, // Reduced from 2500
+    pauseAfterTitleReveal: 1500, // Reduced from 2500
+    pauseAfterCakeReveal: 2000, // Reduced from 3000
+    pauseAfterBlow: 2500, // Reduced from 4500
+    holdToStartMs: 300, // Reduced from 400
+    blowStepInterval: 800, // Reduced from 1200
   },
 
   // 🖼️ UI Text
@@ -138,8 +138,8 @@ export const defaultConfig = {
         message: "Dreams do come true when we believe in ourselves and the magic of possibilities. Keep shining bright and inspiring everyone around you with your amazing spirit! ✨",
       },
     ],
-    slideDuration: 8000,
-    animationDuration: 1200,
+    slideDuration: 5000, // Reduced from 8000
+    animationDuration: 800, // Reduced from 1200
     frameColor: "#ff6b9d", // Hot pink frame
     textColor: "#ffffff",  // White text
     titleColor: "#ffeb3b", // Bright yellow
@@ -175,10 +175,10 @@ export const defaultConfig = {
 
   heart: {
     shadowSubtle: "rgba(0, 0, 0, 0.5)",
-    duration: 3, // seconds
+    duration: 2, // Reduced from 3 seconds
   },
 
-  // 🎊 Rainbow confetti explosion
+  // 🎊 Rainbow confetti explosion (OPTIMIZED)
   confetti: {
     light: "rgba(255, 255, 255, 0.9)",
     accentA: "rgba(255, 107, 157, 0.9)", // Hot pink
@@ -186,14 +186,14 @@ export const defaultConfig = {
     accentC: "rgba(76, 175, 80, 0.9)",   // Green
     accentD: "rgba(255, 235, 59, 0.9)",  // Yellow
     accentE: "rgba(156, 39, 176, 0.9)",  // Purple
-    particleCount: 5000,
-    life: { min: 120, max: 180 },
+    particleCount: 3000, // Reduced from 5000 for better performance
+    life: { min: 80, max: 120 }, // Reduced from { min: 120, max: 180 }
     gravity: 0.16,
     friction: 0.95,
     initialVelocityX: { min: -10, max: 10 },
     initialVelocityY: { min: -25, max: -15 },
     radius: { min: 2, max: 5 },
-    emissionDuration: 6000,
+    emissionDuration: 4000, // Reduced from 6000
   },
 
   candleBlownConfetti: {
@@ -202,14 +202,14 @@ export const defaultConfig = {
     accentB: "rgba(0, 188, 212, 0.9)",    // Cyan
     accentC: "rgba(255, 149, 0, 0.9)",    // Orange
     accentD: "rgba(76, 175, 80, 0.9)",    // Green
-    particleCount: 1000,
-    life: { min: 100, max: 140 },
+    particleCount: 800, // Reduced from 1000
+    life: { min: 60, max: 100 }, // Reduced from { min: 100, max: 140 }
     gravity: 0.12,
     friction: 0.98,
     initialVelocityX: { min: -8, max: 8 },
     initialVelocityY: { min: -18, max: -10 },
     radius: { min: 1, max: 4 },
-    emissionDuration: 800,
+    emissionDuration: 600, // Reduced from 800
   },
 
   // 🎂 Rainbow cake theme
@@ -244,18 +244,19 @@ export const defaultConfig = {
   // 🌈 Additional rainbow theme elements
   rainbowGradient: "linear-gradient(90deg, #ff6b9d, #ff9500, #ffeb3b, #4caf50, #2196f3, #9c27b0)",
   
-  // 🎨 Theme-specific animations
+  // 🎨 Theme-specific animations (OPTIMIZED)
   animations: {
     rainbowPulse: {
-      duration: "2s",
+      duration: "1.5s", // Reduced from 2s
       iteration: "infinite",
       colors: ["#ff6b9d", "#ff9500", "#ffeb3b", "#4caf50", "#2196f3", "#9c27b0"]
     },
     sparkleEffect: {
       colors: ["#ffffff", "#ffeb3b", "#ff6b9d", "#2196f3"],
       size: { min: 2, max: 6 },
-      duration: { min: 1000, max: 3000 }
+      duration: { min: 800, max: 2000 } // Reduced from { min: 1000, max: 3000 }
     }
   },
+  
   lightBulb: ["#F87171", "#FBBF24", "#34D399", "#60A5FA", "#A78BFA"],
 };

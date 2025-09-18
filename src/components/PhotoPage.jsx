@@ -10,6 +10,7 @@ const PhotoPage = ({ config, onComplete }) => {
   const [isPaused, setIsPaused] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [direction, setDirection] = useState(1); // 1 = next, -1 = prev
+  const [isFirstSlide, setIsFirstSlide] = useState(true);
   const shouldReduceMotion = useReducedMotion();
 
   const {
@@ -66,6 +67,12 @@ const PhotoPage = ({ config, onComplete }) => {
     }, slideDuration);
     return () => clearTimeout(t);
   }, [isPaused, completed, currentSlide, totalSlides, slideDuration, onComplete]);
+
+  useEffect(() => {
+    if (currentSlide > 0) {
+      setIsFirstSlide(false);
+    }
+  }, [currentSlide]);
 
   useEffect(() => {
     const handleBlur = () => setIsPaused(true);
@@ -166,13 +173,15 @@ const PhotoPage = ({ config, onComplete }) => {
     : {
         enter: (dir) => ({
           opacity: 0,
-          x: dir > 0 ? 300 : -300,
+          y: isFirstSlide ? "100vh" : 0,
+          x: isFirstSlide ? 0 : (dir > 0 ? 300 : -300),
           scale: 1,
-          transition: { duration: animationDuration / 1000, ease: 'easeOut' },
+          transition: { duration: isFirstSlide ? 0.8 : animationDuration / 1000, ease: 'easeOut' },
         }),
         center: {
           opacity: 1,
           x: 0,
+          y: 0,
           scale: 1,
           transition: { duration: animationDuration / 1000, ease: 'easeOut' },
         },
