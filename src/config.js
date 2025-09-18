@@ -1,15 +1,12 @@
 export const defaultConfig = {
   // 🎉 Who's the star today?
-  birthdayPersonName: "Birthday Star 🌟",
+  birthdayPersonName: "Birthday Star",
 
-<<<<<<< HEAD
   // ⏳ Surprise countdown
   countdownTarget: "2024-12-31T00:00:00",
-=======
   // Date and time of the surprise
   // Format: YYYY-MM-DDTHH:mm:ss
   countdownTarget: "2024-10-09T00:00:00",
->>>>>>> 33cf3f437d4df071bf077f9b5b44fd299d5c92ed
 
   // ✨ Surprise messages
   messages: [
@@ -234,7 +231,6 @@ export const defaultConfig = {
     colors: ["#ff6b9d", "#ff3366", "#ff9500", "#ffeb3b", "#4caf50", "#2196f3", "#9c27b0"],
   },
 
-<<<<<<< HEAD
   // 💡 Rainbow lights
   lightBulb: [
     "#ff6b9d", // Hot pink
@@ -260,8 +256,6 @@ export const defaultConfig = {
       size: { min: 2, max: 6 },
       duration: { min: 1000, max: 3000 }
     }
-  }
-=======
+  },
   lightBulb: ["#F87171", "#FBBF24", "#34D399", "#60A5FA", "#A78BFA"],
->>>>>>> 33cf3f437d4df071bf077f9b5b44fd299d5c92ed
 };
