@@ -6,10 +6,6 @@ const MessagePage = ({ config, onComplete }) => {
   const messages = config.messages || [];
 
   useEffect(() => {
-    if (index === messages.length - 1 && !config.showSurprisePage) {
-      return;
-    }
-
     if (index > messages.length) {
       const finalTimer = setTimeout(() => {
         onComplete();
@@ -20,16 +16,18 @@ const MessagePage = ({ config, onComplete }) => {
     const messageDuration = index < messages.length ? messages[index][1] : 2000;
 
     const timer = setTimeout(() => {
-      setIndex(prevIndex => prevIndex + 1);
+      setIndex((prevIndex) => prevIndex + 1);
     }, messageDuration);
 
     return () => clearTimeout(timer);
-  }, [index, messages, onComplete, config.showSurprisePage]);
+  }, [index, messages, onComplete]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="relative w-full max-w-lg rounded-lg shadow-2xl shadow-pink-900/20 p-8 sm:p-12 text-center ease-in-out"
-           style={{ backgroundColor: config.messagePage.background }}>
+      <div
+        className="relative w-full max-w-lg rounded-lg shadow-2xl shadow-pink-900/20 p-8 sm:p-12 text-center ease-in-out"
+        style={{ background: config.messagePage.background }}
+      >
         <div className="min-h-[10rem] flex items-center justify-center">
           <AnimatePresence mode="wait">
             {index < messages.length ? (
@@ -47,7 +45,8 @@ const MessagePage = ({ config, onComplete }) => {
             ) : (
               <motion.p
                 key="final-message"
-                className="text-2xl sm:text-4xl font-semibold text-pink-800"
+                className="text-2xl sm:text-4xl font-semibold"
+                style={{ color: config.messagePage.text }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}

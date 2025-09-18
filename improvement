@@ -1,0 +1,48 @@
+Core experience
+Add a playful “open the envelope” or “unwrap the gift” interaction as the entry point, then reveal the message with confetti and micro-interactions for a memorable first impression.
+
+Use a short 3–2–1 countdown sequence with motion easing before the big reveal to build anticipation and increase emotional payoff.
+
+Batch festive animations: confetti burst on reveal, floating balloons, and a gentle parallax background; keep it mobile-first and whimsical for broad delight.
+
+Personalization
+Include a spotlight photo of the celebrant that slides or fades in during the reveal, framed creatively behind the main card or envelope for a warm, personal touch.
+
+Offer a “memory lane” panel with highlights, inside jokes, and a simple gallery—think 6–9 images with short captions for emotional resonance.
+
+Surface surprise ideas as optional “IRL add-ons” (balloon box, room balloons, boot-decor reveal) to inspire planning beyond the site experience.
+
+Sound and music
+Provide subtle background music with a visible play/pause control and start muted; add a one-tap “Play the vibe” button to comply with autoplay norms and user comfort.
+
+Optionally integrate a celebrant-themed playlist or a single favorite track with a tasteful audio visualization during the countdown or confetti moment.
+
+Motion and polish
+Use Framer Motion for nuanced staging: envelope drag, eased card flip, staggered text reveals, and confetti timing synced with micro-sounds for cohesive delight.
+
+Keep animations under ~600ms for most transitions with one longer “hero” moment for the reveal, maintaining responsiveness across devices.
+
+Content structure
+Center the heartfelt message in a “card” with short lines, readable contrast, and a concluding CTA like “Send your wish back” or “Unlock a memory” to drive meaningful interaction.
+
+Add an optional “How we celebrate” strip showcasing ideas (balloon surprise, car-boot decor, musician pop-in) to spark creativity and next steps.
+
+Performance on Vercel
+Preload critical fonts and images, use Next.js Image Optimization, and lean on static generation or ISR for near-instant loads and reliable delivery under share-driven spikes.
+
+Cache static assets aggressively and keep client JS minimal—ship motion via lightweight components and lazy-load non-critical effects to maintain snappy TTI.
+
+Cost safety
+Add sensible rate limits and usage monitoring to avoid accidental overage; a small mistake can lead to significant bills if traffic surges from viral shares.
+
+Consider serverless cold-start mitigation via static-first rendering and cache hints so peaks don’t translate into costly per-invocation spikes.
+
+Shareability
+Craft a strong Open Graph preview (image with celebrant’s name and a tiny confetti motif) and a crisp title/description to boost CTR on WhatsApp, Instagram DMs, and X.
+
+Add a “Share this surprise” action post-reveal that copies a personalized link, encouraging network effects while the emotional peak is high.
+
+Accessibility
+Ensure high color contrast, semantic headings, focus-visible outlines, alt text for images, and captions for any audio cues to widen reach and improve usability for everyone.
+
+Provide a “Reduced motion” toggle or respect prefers-reduced-motion to keep the experience comfortable without 

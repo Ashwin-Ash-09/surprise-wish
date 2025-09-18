@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "./Confetti";
 import Cake from "./icons/Cake";
-import SplashParticles from "./SplashParticles";
 
 const fallingVariants = {
   hidden: { opacity: 0, y: "-100vh" },
@@ -25,11 +26,14 @@ const cakeVariants = {
 };
 
 const RevealPage = ({ config, onComplete, setLightsOn }) => {
-    const { animationTimings, birthdayPersonName, uiText, blowTexts, revealPrompts, revealPage, globalColors } = config;
+  const { animationTimings, birthdayPersonName, uiText, blowTexts, revealPrompts, revealPage, globalColors } = config;
+  const { width, height } = useWindowSize();
 
   const [step, setStep] = useState("lightButton");
   const [lightOn, setLightOn] = useState(false);
   const [titleVisible, setTitleVisible] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showCandleBlownConfetti, setShowCandleBlownConfetti] = useState(false);
   const [blowIndex, setBlowIndex] = useState(0);
 
   const blowIntervalRef = useRef(null);
@@ -46,6 +50,7 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
       timer = setTimeout(() => {
         setStep("title");
         setTitleVisible(true);
+        setShowConfetti(true);
       }, animationTimings.pauseAfterTitleReveal);
     } else if (step === "pausingAfterTitle") {
       timer = setTimeout(() => setStep("cakeButton"), animationTimings.pauseAfterCakeReveal);
@@ -57,10 +62,12 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
 
   useEffect(() => {
     if (step === "candleOffPause") {
-      const timer = setTimeout(() => setStep("messageButton"), animationTimings.pauseAfterBlow);
+      setShowCandleBlownConfetti(true);
+      const confettiDuration = config.candleBlownConfetti.emissionDuration;
+      const timer = setTimeout(() => setStep("messageButton"), animationTimings.pauseAfterBlow + confettiDuration);
       return () => clearTimeout(timer);
     }
-  }, [step, animationTimings.pauseAfterBlow]);
+  }, [step, animationTimings.pauseAfterBlow, config.candleBlownConfetti.emissionDuration]);
 
   useEffect(() => {
     return () => {
@@ -119,7 +126,6 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
 
   const candleOn = step !== "messageButton" && step !== "candleOffPause";
 
-  // --- Actions ---
   const handleLightOnClick = () => {
     if (config.audio) {
       const audio = new Audio(config.audio.src);
@@ -145,7 +151,8 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
 
   return (
     <div className="relative h-screen w-full p-4 overflow-hidden flex flex-col justify-between">
-      {/* Fade overlay */}
+      {showConfetti && <Confetti config={{ confetti: config.confetti }} />}
+      {showCandleBlownConfetti && <Confetti config={{ confetti: config.candleBlownConfetti }} />}
       <motion.div
         className="absolute inset-0 bg-black"
         initial={{ opacity: 1 }}
@@ -154,9 +161,7 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
         style={{ pointerEvents: "none" }}
       />
 
-      {/* Main content area: Title, Cake, Blow Text, Buttons */}
       <div className="flex flex-col items-center justify-center flex-grow text-center pt-[6vh]">
-        {titleVisible && <SplashParticles emojis={config.splashEmojis} config={config} />}
         <motion.h1
           className="text-5xl md:text-7xl font-pacifico text-center mb-[3vh]"
           style={{
@@ -178,14 +183,13 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
           onMouseLeave={handleBlowEnd}
           onTouchStart={handleBlowStart}
           onTouchEnd={handleBlowEnd}
-          variants={cakeVariants} // Apply the variants
-          initial="hidden" // Start from hidden state
-          animate={showCake ? "visible" : "hidden"} // Animate to visible when showCake is true
+          variants={cakeVariants}
+          initial="hidden"
+          animate={showCake ? "visible" : "hidden"}
         >
           {showCake && <Cake candleOn={candleOn} config={config} />}
         </motion.div>
 
-        {/* Blow text */}
         <div className="w-full flex items-center justify-center min-h-[64px]">
           <AnimatePresence mode="wait" initial={false}>
             {step === "blowing" && candleOn && (
@@ -204,7 +208,6 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
           </AnimatePresence>
         </div>
 
-        {/* Buttons */}
         <div className="relative flex justify-center space-x-4 mt-4" style={{ height: "60px", minHeight: "60px" }}>
           <AnimatePresence mode="wait">
             {step === "lightButton" && (
@@ -216,7 +219,7 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
                   background: `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`,
                   color: revealPage.actionButtonText,
                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
+                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
                 onMouseLeave={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`}
                 variants={popUpVariants}
                 initial="hidden"
@@ -235,7 +238,7 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
                   background: `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`,
                   color: revealPage.actionButtonText,
                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
+                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
                 onMouseLeave={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`}
                 variants={popUpVariants}
                 initial="hidden"
@@ -254,7 +257,7 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
                   background: `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`,
                   color: revealPage.actionButtonText,
                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
+                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
                 onMouseLeave={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`}
                 variants={popUpVariants}
                 initial="hidden"
@@ -284,9 +287,9 @@ const RevealPage = ({ config, onComplete, setLightsOn }) => {
                 className="px-8 py-3 font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300"
                 style={{
                   background: `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`,
-                  color: revealPage.actionButtonText,
+                  color: revealPage.actionText,
                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
+                onMouseEnter={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonHoverFrom}, ${revealPage.actionButtonHoverTo})`}
                 onMouseLeave={(e) => e.currentTarget.style.background = `linear-gradient(to right, ${revealPage.actionButtonBackgroundFrom}, ${revealPage.actionButtonBackgroundTo})`}
                 variants={popUpVariants}
                 initial="hidden"

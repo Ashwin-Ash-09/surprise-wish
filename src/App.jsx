@@ -4,8 +4,9 @@ import { Page } from './constants';
 import CountdownPage from './components/CountdownPage';
 import RevealPage from './components/RevealPage';
 import MessagePage from './components/MessagePage';
-import FeedbackPage from './components/FeedbackPage';
-import ParticleBackground from './components/Confetti';
+import ThankYouPage from './components/ThankYouPage';
+import PhotoPage from './components/PhotoPage';
+
 import Heart from './components/Heart';
 import LightBulb from './components/icons/LightBulb';
 
@@ -32,9 +33,16 @@ const lightItemVariants = {
   },
 };
 
+const pageComponents = {
+  message: MessagePage,
+  photo: PhotoPage,
+  thankyou: ThankYouPage,
+};
+
 const App = ({ initialConfig }) => {
   const [config, setConfig] = useState(null);
-  const [page, setPage] = useState(Page.Start);
+  const [currentPage, setCurrentPage] = useState(Page.Start);
+  const [pageSequenceIndex, setPageSequenceIndex] = useState(0);
   const [hearts, setHearts] = useState([]);
   const [lightsOn, setLightsOn] = useState(false);
 
@@ -49,13 +57,18 @@ const App = ({ initialConfig }) => {
           setConfig(initialConfig);
         }
       } catch (error) {
-        console.error('Could not load external config.json, using default config:', error);
         setConfig(initialConfig);
       }
     };
 
     fetchConfig();
   }, [initialConfig]);
+
+  useEffect(() => {
+    if (currentPage === 'sequence' && config?.pageSequence?.[pageSequenceIndex] === 'photo') {
+      setLightsOn(true);
+    }
+  }, [currentPage, pageSequenceIndex, config]);
 
   const handlePointerDown = useCallback((e) => {
     if (!config?.heartEmojis || config.heartEmojis.length === 0) return;
@@ -74,23 +87,33 @@ const App = ({ initialConfig }) => {
     setHearts(prevHearts => prevHearts.filter(h => h.id !== id));
   }, []);
 
+  const goToNextPage = useCallback(() => {
+    setPageSequenceIndex(prevIndex => prevIndex + 1);
+  }, []);
+
   const renderContent = () => {
-    switch (page) {
-      case Page.Start:
-        return <CountdownPage config={config} onComplete={() => setPage(Page.Surprise)} />;
-      case Page.Surprise:
-        return <RevealPage config={config} onComplete={() => setPage(Page.Message)} setLightsOn={setLightsOn} />;
-      case Page.Message:
-        return <MessagePage config={config} onComplete={() => setPage(Page.Feedback)} lightsOn={lightsOn} />;
-      case Page.Feedback:
-        return <FeedbackPage config={config} lightsOn={lightsOn} />;
-      default:
-        return <CountdownPage config={config} onComplete={() => setPage(Page.Surprise)} />;
+    if (currentPage === Page.Start) {
+      return <CountdownPage config={config} onComplete={() => setCurrentPage(Page.Surprise)} />;
     }
+
+    if (currentPage === Page.Surprise) {
+      return <RevealPage config={config} onComplete={() => setCurrentPage('sequence')} setLightsOn={setLightsOn} />;
+    }
+
+    if (currentPage === 'sequence') {
+      const pageName = config.pageSequence[pageSequenceIndex];
+      if (pageName) {
+        const PageComponent = pageComponents[pageName];
+        return <PageComponent config={config} onComplete={goToNextPage} lightsOn={lightsOn} />;
+      }
+      return null;
+    }
+
+    return <CountdownPage config={config} onComplete={() => setCurrentPage(Page.Surprise)} />;
   };
 
   if (!config) {
-    return <div>Loading...</div>; // Or a more sophisticated loading spinner
+    return <div>Loading...</div>;
   }
 
   const lightColors = config.lightBulb;
@@ -98,11 +121,10 @@ const App = ({ initialConfig }) => {
   return (
     <main
       data-testid="app-container"
-      className="relative h-screen w-full overflow-hidden text-gray-800"
+      className="relative h-screen w-screen overflow-hidden text-gray-800"
       style={{ backgroundColor: config.globalColors.mainBackground }}
       onPointerDown={handlePointerDown}
     >
-      <ParticleBackground config={config} />
       <motion.div
         className="absolute p-0 pl-[30px] m-[-20px] flex flex-row align-center justify-between items-center w-full"
         initial="hidden"
@@ -130,7 +152,7 @@ const App = ({ initialConfig }) => {
       {hearts.map(({ id, x, y, emoji }) => (
         <div
           key={id}
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-auto"
           style={{ top: y, left: x, transform: 'translate(-50%, -50%)', zIndex: 1000 }}
         >
           <Heart emoji={emoji} onComplete={() => removeHeart(id)} config={config} />

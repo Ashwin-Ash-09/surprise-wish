@@ -19,11 +19,14 @@ const Cake = ({ candleOn = true, config }) => {
         {/* Middle Layer (Filling) */}
         <div className="absolute top-32 w-full h-4" style={{ backgroundColor: config.cake.filling }}></div>
 
+        {/* New Middle Layer */}
+        <div className="absolute top-36 w-full h-6 rounded-lg" style={{ backgroundColor: config.globalColors.elementMedium }}></div>
+
         {/* Bottom Layer */}
-        <div className="absolute top-36 w-full h-12 rounded-lg" style={{ backgroundColor: config.cake.layerBottom }}></div>
+        <div className="absolute top-42 w-full h-12 rounded-lg" style={{ backgroundColor: config.cake.layerBottom }}></div>
 
         {/* Plate */}
-        <div className="absolute top-48 w-full h-8 bg-white rounded-full shadow-lg"></div>
+        <div className="absolute top-54 w-full h-8 bg-white rounded-full shadow-lg"></div>
 
     </div>
   );

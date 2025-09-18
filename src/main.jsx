@@ -8,7 +8,6 @@ if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }
 
-// Set CSS variables
 for (const [key, value] of Object.entries(defaultConfig.globalColors)) {
   document.documentElement.style.setProperty(`--color-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value);
 }
@@ -20,5 +19,17 @@ root.render(
     <App initialConfig={defaultConfig} />
   </React.StrictMode>
 );
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('SW registered: ', registration);
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
 
 

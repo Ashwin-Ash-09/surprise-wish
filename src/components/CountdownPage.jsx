@@ -30,7 +30,9 @@ const TimeBox = ({ value, label, colors }) => {
       >
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-xs sm:text-base uppercase tracking-widest mt-1" style={{ color: timeBoxLabelColor }}>{label}</span>
+      <span className="text-xs sm:text-base uppercase tracking-widest mt-1" style={{ color: timeBoxLabelColor }}>
+        {label}
+      </span>
     </div>
   );
 };
@@ -67,30 +69,52 @@ const CountdownPage = ({ config, onComplete }) => {
   }, [calculateTimeLeft, onComplete]);
 
   const timerUnits = ['days', 'hours', 'minutes', 'seconds'];
-  const activeUnits = timerUnits.filter(unit => unit === 'seconds' || timeLeft[unit] > 0);
+  const activeUnits = timerUnits.filter((unit) => unit === 'seconds' || timeLeft[unit] > 0);
   const hasTimeLeft = Object.keys(timeLeft).length > 0;
 
-  const { countdownPage, globalColors } = config;
+  const { countdownPage } = config;
 
   return (
-    <div data-testid="countdown-page" className="min-h-screen flex flex-col items-center justify-center p-4 text-center space-y-8">
-       <h1 className="text-5xl sm:text-7xl font-pacifico text-white" style={{ textShadow: `0 0 10px var(--color-neutral-light), 0 0 20px var(--color-highlight-soft), 0 0 30px var(--color-highlight-medium), 0 0 40px var(--color-highlight-medium)` }}>
+    <div
+      data-testid="countdown-page"
+      className="min-h-screen flex flex-col items-center justify-center p-4 text-center space-y-8"
+    >
+      <h1
+        className="text-5xl sm:text-7xl font-pacifico text-white"
+        style={{
+          textShadow: `0 0 10px var(--color-neutral-light), 0 0 20px var(--color-highlight-soft), 0 0 30px var(--color-highlight-medium), 0 0 40px var(--color-highlight-medium)`,
+        }}
+      >
         {hasTimeLeft ? config.uiText.countdownTitle : config.uiText.countdownCompleteTitle}
       </h1>
-      <p className=" font-pacifico text-white" style={{ textShadow: `0 0 10px var(--color-neutral-light), 0 0 10px var(--color-highlight-soft), 0 0 10px var(--color-highlight-medium), 0 0 10px var(--color-highlight-medium)` }}>Touch anywhere </p>
+      <p
+        className="font-pacifico text-white"
+        style={{
+          textShadow: `0 0 10px var(--color-neutral-light), 0 0 10px var(--color-highlight-soft), 0 0 10px var(--color-highlight-medium), 0 0 10px var(--color-highlight-medium)`,
+        }}
+      >
+        Touch anywhere
+      </p>
       {hasTimeLeft ? (
         <div className="flex items-center justify-center gap-1 sm:gap-4">
           {activeUnits.map((unit, index) => (
             <React.Fragment key={unit}>
               <TimeBox value={timeLeft[unit] ?? 0} label={unit} colors={countdownPage} />
               {index < activeUnits.length - 1 && (
-                <span className="text-2xl sm:text-5xl font-light pb-4 sm:pb-10" style={{ color: hexToRgba(countdownPage.separatorText, 0.8) }}>:</span>
+                <span
+                  className="text-2xl sm:text-5xl font-light pb-4 sm:pb-10"
+                  style={{ color: hexToRgba(countdownPage.separatorText, 0.8) }}
+                >
+                  :
+                </span>
               )}
             </React.Fragment>
           ))}
         </div>
       ) : (
-        <p className="text-xl animate-pulse" style={{ color: countdownPage.completeMessageText }}>{config.uiText.countdownCompleteMessage}</p>
+        <p className="text-xl animate-pulse" style={{ color: countdownPage.completeMessageText }}>
+          {config.uiText.countdownCompleteMessage}
+        </p>
       )}
     </div>
   );

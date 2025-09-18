@@ -1,15 +1,19 @@
-# Surprise Wish - An Interactive Surprise
+# Surprise Wish - An Interactive Surprise (v1.0.0)
 
-An engaging and personalized web application designed to deliver a unique surprise experience. This interactive app features a countdown to the special moment, a multi-stage reveal sequence with animations, a heartfelt message display, and a feedback mechanism to capture the recipient's response.
+An engaging and customizable web application designed to deliver a unique surprise experience. This interactive app features a countdown to the special moment, a multi-stage reveal sequence with animations, a heartfelt message display, and a feedback mechanism to capture the recipient's response.
+
+## Progressive Web App (PWA)
+
+This application is configured as a Progressive Web App (PWA), offering an enhanced user experience with offline capabilities and installability on various devices. It includes a `manifest.json` for app metadata and a `sw.js` (Service Worker) for caching assets and enabling offline access.
 
 ## Features
 
-- **Personalized Countdown:** Dynamic countdown timer leading up to the birthday moment.
+- **Personalized Countdown:** Dynamic countdown timer leading up to the special moment.
 - **Interactive Reveal Sequence:** Step-by-step surprise unveiling including turning on lights, decorating, revealing a cake, and blowing out candles.
 - **Heartfelt Message:** Timed narrative messages displayed line-by-line to convey warm wishes.
 - **Interactive Elements:** Click or tap to generate floating heart emojis for added engagement.
 - **Customizable Content:** Easily configure all text, timings, emojis, colors, and audio via a JSON configuration file.
-- **Themed Design:** A visually appealing "Pink Surprise" theme with gradient backgrounds and smooth animations.
+- **Themed Design:** A visually appealing theme with gradient backgrounds and smooth animations.
 - **Sound Effects:** Background music and sound effects to enhance the celebratory atmosphere.
 
 ## Technology Stack
@@ -22,13 +26,13 @@ An engaging and personalized web application designed to deliver a unique surpri
 
 ## Project Structure
 
-- `public/config.json` - A default configuration file that can be used for development.
+- `public/config.json` - Default configuration file for development.
 - `public/manifest.json` - PWA manifest file.
 - `public/sw.js` - Service Worker for offline support.
 - `src/config.js` - JavaScript configuration with default values.
 - `src/App.jsx` - Main React component controlling the app flow.
 - `src/constants.js` - Defines page states for navigation.
-- `src/components/` - Contains React components for each stage of the birthday wish.
+- `src/components/` - Contains React components for each stage of the surprise.
 - `index.html` - Main HTML entry point.
 - `index.css` - Global styles including Tailwind CSS imports.
 - `vite.config.js` - Vite configuration with React and Tailwind plugins.
@@ -115,4 +119,4 @@ The following table lists all the available customization options in the `config
 
 ---
 
-This project provides a delightful and customizable way to create memorable birthday surprises with interactive animations and heartfelt messages. Enjoy personalizing it for your loved ones!
+This project provides a delightful and customizable way to create memorable surprises with interactive animations and heartfelt messages. Enjoy personalizing it for your audience!
